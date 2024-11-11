@@ -17,6 +17,7 @@ class Task:
     countries: List[str]
     n_hits: Optional[int] = 30
     language: Optional[str] = 'en'
+    active: Optional[bool] = True
 
 
 def load_tasks_from_json():
@@ -110,6 +111,9 @@ def main():
     tasks = load_tasks_from_json()
 
     for task in tasks:
+        if not task.active:
+            continue
+
         print(f'Looking up: {task.app_package_id}')
         task_result = execute_task(task)
         write_result(task_result, task)
