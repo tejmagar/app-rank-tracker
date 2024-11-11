@@ -37,12 +37,17 @@ def get_search_result(task: Task):
             app_rank: int = 0
             app_listings: List[dict[str, dict]] = []
 
-            search_results = google_play_scraper.search(
-                keyword,
-                lang='en',
-                country=country,
-                n_hits=task.n_hits,
-            )
+            # noinspection PyBroadException
+            try:
+                search_results = google_play_scraper.search(
+                    keyword,
+                    lang='en',
+                    country=country,
+                    n_hits=task.n_hits,
+                )
+            except Exception as _:
+                print(f'Failed to fetch ==> keyword: {keyword}   country={country}')
+                continue
 
             for position, result in enumerate(search_results):
                 app_id: str = result['appId']
