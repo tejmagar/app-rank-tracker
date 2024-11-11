@@ -1,5 +1,6 @@
 import json
 import os
+from datetime import datetime
 
 from dataclasses import dataclass
 from pathlib import Path
@@ -33,6 +34,8 @@ def get_search_result(task: Task):
     search_result = {}
 
     for keyword in task.keywords:
+        countries = {}
+
         for country in task.countries:
             app_rank: int = 0
             app_listings: List[dict[str, dict]] = []
@@ -70,12 +73,14 @@ def get_search_result(task: Task):
             if app_rank == 0:
                 print(f'Not ranked ==> keyword: {keyword}   country={country}')
 
-            search_result[keyword] = {
-                    country: {
-                        'app_rank': app_rank,
-                        'app_listings': app_listings
-                    }
+            country_result = {
+                'app_rank': app_rank,
+                'app_listings': app_listings,
+                'time': str(datetime.now())
             }
+            countries[country] = country_result
+
+        search_result[keyword] = countries
 
     return search_result
 
