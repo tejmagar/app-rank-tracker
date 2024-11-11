@@ -70,12 +70,12 @@ def get_search_result(task: Task):
             if app_rank == 0:
                 print(f'Not ranked ==> keyword: {keyword}   country={country}')
 
-                search_result[keyword] = {
+            search_result[keyword] = {
                     country: {
                         'app_rank': app_rank,
                         'app_listings': app_listings
                     }
-                }
+            }
 
     return search_result
 
