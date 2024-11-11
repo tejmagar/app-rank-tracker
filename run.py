@@ -68,7 +68,7 @@ def get_search_result(task: Task):
                 })
 
                 if app_id == task.app_package_id:
-                    app_rank = position
+                    app_rank = position + 1
                     print(f'Found ==> keyword: {keyword}   country={country}  rank: {app_rank}')
 
             if app_rank == 0:
