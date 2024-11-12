@@ -2,6 +2,9 @@
 
 Simple utility tool to track your app rankings in Google Play Store.
 
+## Demo
+<img src="screenshot.png" height="360" alt="App rank tracker">
+
 ## Usage guide
 
 Clone this repository and create `tasks.json` file.
