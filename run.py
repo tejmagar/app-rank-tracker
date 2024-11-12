@@ -104,7 +104,7 @@ def write_result(result: dict, task: Task):
     json_data.append(result)
 
     with open(task.result_path, 'w') as file:
-        file.write(json.dumps(json_data))
+        file.write(json.dumps(json_data, indent=2, ensure_ascii=False))
 
 
 def main():
