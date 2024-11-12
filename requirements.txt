@@ -1,1 +1,2 @@
 google-play-scraper==1.2.7
+print-color==0.4.6
