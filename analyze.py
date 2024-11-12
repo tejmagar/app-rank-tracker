@@ -66,7 +66,7 @@ def get_average_rank(rank_data: List[dict]) -> int:
     for rank in rank_data[:days_considered]:
         total += rank['app_rank']
 
-    return total / len(rank_data)
+    return round(total / len(rank_data), 1)
 
 
 def prepare_summary(task: Task, result: dict):
