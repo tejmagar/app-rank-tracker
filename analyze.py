@@ -93,7 +93,7 @@ def prepare_summary(task: Task, result: dict):
             elif growth > 0:
                 formatted_growth = f'+{growth}'
             else:
-                formatted_growth = '0'
+                formatted_growth = growth
 
             col_count += 1
             table.add_row([col_count, keyword, country.upper(), average_app_rank, latest_app_rank, formatted_growth])
