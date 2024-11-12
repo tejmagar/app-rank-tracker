@@ -13,24 +13,6 @@ def load_result_from_file(path: str):
         return json.loads(file.read())
 
 
-def order_by_keyword(result: dict) -> dict[str, List[dict]]:
-    cleaned_data = {}
-    """
-    cleaned_data = {
-        "key": []
-    }
-    """
-
-    for data in result:
-        for key, value in data.items():
-            if cleaned_data.get(key):
-                cleaned_data[key].append(value)
-            else:
-                cleaned_data[key] = [value]
-
-    return cleaned_data
-
-
 def order_by_app_and_countries(result_data: dict):
     cleaned_data = {}
     """
