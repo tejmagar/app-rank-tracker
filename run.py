@@ -130,6 +130,17 @@ def main():
 
     print('Saved results')
 
+    print_color.print(f'Analyzing...', tag='progress', tag_color='magenta', color='magenta')
+
+    from analyze import analyze
+
+    # Analyze only active tasks
+    for task in tasks:
+        if not task.active:
+            continue
+
+        analyze(task)
+
 
 if __name__ == '__main__':
     main()
