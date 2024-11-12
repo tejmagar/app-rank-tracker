@@ -46,7 +46,7 @@ source .venv/bin/activate
 # Install dependencies
 pip install -r requirements.txt
 
-# Execute script. Make sure create tasks.json before executing.
+# Execute script. Make sure to create tasks.json before executing.
 python run.py
 ```
 
