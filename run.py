@@ -7,6 +7,7 @@ from pathlib import Path
 from typing import List, Optional
 
 import google_play_scraper
+import print_color
 
 
 @dataclass
@@ -50,7 +51,10 @@ def get_search_result(task: Task):
                     n_hits=task.n_hits,
                 )
             except Exception as _:
-                print(f'Failed to fetch ==> keyword: {keyword}   country={country}')
+                print_color.print(
+                    f'keyword: {keyword}   country={country}',
+                    tag='Failed to fetch', tag_color='yellow', color='yellow'
+                )
                 continue
 
             for position, result in enumerate(search_results):
@@ -69,10 +73,16 @@ def get_search_result(task: Task):
 
                 if app_id == task.app_package_id:
                     app_rank = position + 1
-                    print(f'Found ==> keyword: {keyword}   country={country}  rank: {app_rank}')
+                    print_color.print(
+                        f'keyword: {keyword}   country={country}  rank: {app_rank}',
+                        tag='Found', tag_color='green', color='green'
+                    )
 
             if app_rank == 0:
-                print(f'Not ranked ==> keyword: {keyword}   country={country}')
+                print_color.print(
+                    f'keyword: {keyword}   country={country}',
+                    tag='Not Ranked', tag_color='red', color='red'
+                )
 
             country_result = {
                 'app_rank': app_rank,
@@ -114,7 +124,7 @@ def main():
         if not task.active:
             continue
 
-        print(f'Looking up: {task.app_package_id}')
+        print_color.print(f'Looking up: {task.app_package_id}', tag='progress', tag_color='magenta', color='magenta')
         task_result = execute_task(task)
         write_result(task_result, task)
 
