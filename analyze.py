@@ -1,6 +1,6 @@
 import json
 import os.path
-from typing import List, Optional
+from typing import List, Optional, Tuple
 
 import print_color
 from prettytable import PrettyTable
@@ -51,12 +51,23 @@ def get_latest_app_rank(rank_data: List[dict]) -> int:
     return last_crawl_rank_detail['app_rank']
 
 
-def get_growth(rank_data: List[dict]) -> int:
+def get_growth(rank_data: List[dict]) -> Tuple[int, int]:
+    """
+    Returns previous growth and new growth
+    :param rank_data:
+    :return: previous_growth, new_growth
+    """
     if len(rank_data) < 2:
-        return 0
+        return 0, 0
 
-    difference = rank_data[-1]['app_rank'] - rank_data[-2]['app_rank']
-    return difference
+    if len(rank_data) > 3:
+        previous_growth = rank_data[-2]['app_rank'] - rank_data[-3]['app_rank']
+    else:
+        previous_growth = 0
+
+    new_growth = rank_data[-1]['app_rank'] - rank_data[-2]['app_rank']
+
+    return new_growth, previous_growth
 
 
 def get_average_rank(rank_data: List[dict]) -> int:
@@ -73,6 +84,9 @@ def prepare_summary(task: Task, result: dict):
     table = PrettyTable()
     table.field_names = ['S.N', 'KEYWORD', 'COUNTRY', 'AVERAGE RANK', 'CURRENT RANK', 'GROWTH']
 
+    previous_growth = 0
+    new_growth = 0
+
     col_count = 0
     for keyword, country_data in result.items():
 
@@ -86,14 +100,18 @@ def prepare_summary(task: Task, result: dict):
 
             latest_app_rank = get_latest_app_rank(rank_data)
             average_app_rank = get_average_rank(rank_data)
-            growth = get_growth(rank_data)
+            new_growth, previous_growth = get_growth(rank_data)
+
+            # Compute previous and new growth based on the country for given keyword
+            previous_growth += previous_growth
+            new_growth += new_growth
 
             if latest_app_rank == 0:
                 formatted_growth = 'LOST RANKING'
-            elif growth > 0:
-                formatted_growth = f'+{growth}'
+            elif new_growth > 0:
+                formatted_growth = f'+{new_growth}'
             else:
-                formatted_growth = growth
+                formatted_growth = new_growth
 
             col_count += 1
             table.add_row([col_count, keyword, country.upper(), average_app_rank, latest_app_rank, formatted_growth])
@@ -106,6 +124,16 @@ def prepare_summary(task: Task, result: dict):
 
     print_color.print(f'Package: {task.app_package_id}', color='green')
     print(table)
+
+    # Print growth information
+    growth_difference = new_growth - previous_growth
+
+    if growth_difference >= 0:
+        print_color.print(f'Overall growth: +{new_growth - previous_growth}', color='green')
+    else:
+        print_color.print(f'Overall growth: {new_growth - previous_growth}', color='red')
+
+    print('\n')
 
 
 def analyze(task: Task):
