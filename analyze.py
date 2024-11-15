@@ -61,11 +61,11 @@ def get_growth(rank_data: List[dict]) -> Tuple[int, int]:
         return 0, 0
 
     if len(rank_data) > 3:
-        previous_growth = rank_data[-2]['app_rank'] - rank_data[-3]['app_rank']
+        previous_growth = rank_data[-3]['app_rank'] - rank_data[-1]['app_rank']
     else:
         previous_growth = 0
 
-    new_growth = rank_data[-1]['app_rank'] - rank_data[-2]['app_rank']
+    new_growth = rank_data[-2]['app_rank'] - rank_data[-1]['app_rank']
 
     return new_growth, previous_growth
 
